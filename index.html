@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+         .bottom-buttons {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #stopButton, #resumeButton {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1 class="header_text">Do you wanna go out with me?</h1>
+        </div>
+        <div class="gif_container">
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2JiZDR0a3lvMWF4OG8yc3p6Ymdvd3g2d245amdveDhyYmx6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute animated illustration">
+        </div>
+        <div class="buttons">
+            <button class="btn" id="yesButton" onclick="nextPage()">Yes</button>
+            <button class="btn" id="noButton" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            </div>
+    </div>
+
+             <div class="bottom-buttons">
+        <button class="btn" id="stopButton">Stop Music</button>
+        <button class="btn" id="resumeButton">Resume Music</button>
+    </div>
+
+            <!-- Audio Player -->
+            <audio id="pageAudio" preload="auto" autoplay controls>
+                <source src="../romantic-coding-girl/03-taylor_swift-love_story_64kb.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+    <p style="margin-bottom: -500px;">Make sure you first try clicking on NO:P and try it until you get tired hehe:P
+    </p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var pageAudio = document.getElementById('pageAudio');
+            var stopButton = document.getElementById('stopButton');
+            var resumeButton = document.getElementById('resumeButton');
+
+            // Check and set the music playback state
+            var isPlaying = localStorage.getItem('isPlaying') === 'true';
+            if (!isPlaying) {
+                pageAudio.pause();
+                stopButton.style.display = 'none';
+                resumeButton.style.display = 'block';
+            } else {
+                pageAudio.play();
+                stopButton.style.display = 'block';
+                resumeButton.style.display = 'none';
+            }
+
+            // Stop button click event
+            stopButton.addEventListener('click', function() {
+                pageAudio.pause();
+                localStorage.setItem('isPlaying', 'false');
+                stopButton.style.display = 'none';
+                resumeButton.style.display = 'block';
+            });
+
+            // Resume button click event
+            resumeButton.addEventListener('click', function() {
+                pageAudio.play();
+                localStorage.setItem('isPlaying', 'true');
+                resumeButton.style.display = 'none';
+                stopButton.style.display = 'block';
+            });
+
+            // Next page button click event
+            document.getElementById('yesButton').addEventListener('click', function() {
+                localStorage.setItem('isPlaying', pageAudio.paused ? 'false' : 'true');
+                window.location.href = "yes.html";
+            });
+        });
+
+        function nextPage() {
+            window.location.href = "yes.html";
+        }
+
+        function moveButton() {
+            var x = Math.random() * (window.innerWidth - document.getElementById('noButton').offsetWidth) - 85;
+            var y = Math.random() * (window.innerHeight - document.getElementById('noButton').offsetHeight) - 48;
+            document.getElementById('noButton').style.left = `${x}px`;
+            document.getElementById('noButton').style.top = `${y}px`;
+        }
+    </script>
+</body>
+</html>
